@@ -1,0 +1,85 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\altera\13.0sp1
+vFA
+Z1 !s100 GfFEF:@:@QmP;ED_8IW@:1
+Z2 Iza04fhP;5V0H2gc0S6BaL2
+Z3 VY4_?4O^zUHOb`9N=8MJO@2
+Z4 dC:\altera\13.0sp1\DIC\HW1
+Z5 w1617279053
+Z6 8C:/altera/13.0sp1/DIC/HW1/FA.v
+Z7 FC:/altera/13.0sp1/DIC/HW1/FA.v
+L0 1
+Z8 OV;L;10.1d;51
+r1
+31
+Z9 !s90 -reportprogress|300|-work|work|C:/altera/13.0sp1/DIC/HW1/FA.v|
+Z10 o-work work -O0
+n@f@a
+Z11 !s108 1618069025.328000
+Z12 !s107 C:/altera/13.0sp1/DIC/HW1/FA.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vHA
+Z13 !s100 o@Go?A8OjKaOe1]HfB8zi0
+Z14 IfXi;=;9_j21U@Z3j^ZdYf2
+Z15 V@mI]`Ym_6XVJ@KQ?mmCX10
+R4
+Z16 w1617265083
+Z17 8C:/altera/13.0sp1/DIC/HW1/HA.v
+Z18 FC:/altera/13.0sp1/DIC/HW1/HA.v
+L0 1
+R8
+r1
+31
+Z19 !s90 -reportprogress|300|-work|work|C:/altera/13.0sp1/DIC/HW1/HA.v|
+R10
+n@h@a
+Z20 !s108 1618069025.390000
+Z21 !s107 C:/altera/13.0sp1/DIC/HW1/HA.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vRCA
+Z22 Icn>VcNIDcGfYFzM8Yz;IY3
+Z23 VXad3dRB5e=P?VC2T;F_Lj1
+R4
+Z24 w1618069565
+Z25 8C:/altera/13.0sp1/DIC/HW1/RCA.vo
+Z26 FC:/altera/13.0sp1/DIC/HW1/RCA.vo
+L0 31
+R8
+r1
+31
+R10
+Z27 n@r@c@a
+!i10b 1
+Z28 !s100 NRl=QN>=e?Rc@7o?z7@:V2
+!s85 0
+Z29 !s108 1618070044.664000
+Z30 !s107 C:/altera/13.0sp1/DIC/HW1/RCA.vo|
+Z31 !s90 -reportprogress|300|-work|work|C:/altera/13.0sp1/DIC/HW1/RCA.vo|
+!s101 -O0
+vRCA_tb
+!i10b 1
+Z32 !s100 ?CB[BMZec?i]z6<J6KeI?0
+Z33 IH3a=bfRnY3h>naDOXlKn<2
+Z34 VXOJiG8o=FK5EjGY<Y>Gb^1
+R4
+Z35 w1618057526
+Z36 8C:/altera/13.0sp1/DIC/HW1/RCA_tb.v
+Z37 FC:/altera/13.0sp1/DIC/HW1/RCA_tb.v
+L0 4
+R8
+r1
+!s85 0
+31
+!s108 1618070044.774000
+!s107 C:/altera/13.0sp1/DIC/HW1/RCA_tb.v|
+Z38 !s90 -reportprogress|300|-work|work|C:/altera/13.0sp1/DIC/HW1/RCA_tb.v|
+!s101 -O0
+R10
+Z39 n@r@c@a_tb
