@@ -1,8 +1,10 @@
 `timescale 1ns/10ps
-`define CYCLE      25.0          	  // Modify your clock period here
+`define CYCLE      24.0          	  // Modify your clock period here
 `define End_CYCLE  100000000              // Modify cycle times once your design need more cycle times!
 `define PAT         "img.dat"
 `define L0_EXP0     "golden.dat"     
+//`define PAT         "img_self_build.dat"
+//`define L0_EXP0     "golden_self_build.dat"   
 module testfixture;
     reg	[7:0]	PAT	[0:16383];
     reg	[7:0]	L0_EXP0	[0:16383];  
