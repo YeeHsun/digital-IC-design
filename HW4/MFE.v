@@ -23,9 +23,7 @@ reg [6:0] count_to_127; //count to 127 to determine where is the boundry (for pa
 reg [3:0] sort_count;
 reg [3:0] i; // for iteration
 reg [7:0] temp; // for swapping
-//reg a;
 wire [3:0] index;  //for assigning data
-reg new_data;
 parameter s_read = 3'd0 , s_ready = 3'd1 , s_sort = 3'd2 , s_write = 3'd3 , s_done = 3'd4 , s_assign = 3'd5;
 
 assign index = proccessed_pixel - 4'd2;
@@ -55,22 +53,14 @@ always@(*)begin
 				nstate = s_done;
 			else
 				nstate = s_read;
-			
-			//nstate = s_test;
 		end
-		/*s_test:begin
-			if(a == 1'd1)
-				nstate = s_done;
-			else
-				nstate = s_test;
-		end*/
 		s_done:nstate = s_done;
 		default:nstate = s_done;
 	endcase
 end
+
 always@(posedge clk)begin
 	if(reset)begin
-		new_data <= 0;
 		proccessed_pixel <= 4'd0;
 		pixel <= 14'd0;
 		count_to_127 <= 7'd0;
@@ -80,7 +70,6 @@ always@(posedge clk)begin
 		temp <= 8'd0;
 		cstate <= s_read;
 		wen = 0;
-		//a = 1'd0;
 	end
 	else begin
 		cstate <= nstate;
@@ -88,6 +77,7 @@ always@(posedge clk)begin
 			s_read:begin
 				busy <= 1;
 				wen <= 0;
+				//9 pixels for median filter
 				case(proccessed_pixel)
 					4'd0:iaddr <= pixel - 14'd129;
 					4'd1:iaddr <= pixel - 14'd128;
@@ -100,9 +90,9 @@ always@(posedge clk)begin
 					default:iaddr <= pixel + 14'd129;	
 				endcase	
 				if(proccessed_pixel < 4'd10)
-					proccessed_pixel = proccessed_pixel + 4'd1;
+					proccessed_pixel <= proccessed_pixel + 4'd1;
 				else
-					proccessed_pixel = 4'd0;
+					proccessed_pixel <= 4'd0;
 			end
 			s_ready:begin
 				busy <= 1;
@@ -111,15 +101,29 @@ always@(posedge clk)begin
 			s_assign:begin
 				busy <= 1;
 				wen <= 0;
+				//to prevent multiple drive for data
+				for(i=0;i<=8;i=i+1)
+					data_ready[i] <= data[i];
 			end
 			s_sort:begin
 				busy <= 1;
 				wen <= 0;
+				//bubble sort
+				for(i=0;i<=7;i=i+1)begin
+					if(data_ready[i]>data_ready[i+1])begin
+						temp = data_ready[i];
+						data_ready[i] = data_ready[i+1];
+						data_ready[i+1] = temp;
+					end
+				end
 				sort_count <= sort_count - 4'd1;
 			end
 			s_write:begin
 				busy <= 1;
+				//write to output memory
 				wen <= 1;
+				addr <= pixel;
+				data_wr <= data_ready[4];
 				if(pixel == 14'd16383)
 					pixel <= 14'd16383;
 				else
@@ -131,13 +135,8 @@ always@(posedge clk)begin
 				else
 					count_to_127 <= 7'd0;
 			end
-			/*s_test:begin
-				busy <= 1;
-				wen <= 0;
-				addr <= 14'd0;
-				a <= 1'd1;
-			end*/
 			s_done:begin
+				wen <= 0;
 				busy <= 0;
 			end
 			default:;
@@ -145,55 +144,9 @@ always@(posedge clk)begin
 	end
 end
 
-always@(sort_count or cstate)begin
-	case(cstate)
-		s_assign:begin
-			for(i=0;i<=8;i=i+1)
-				data_ready[i] = data[i];
-		end
-		s_sort:begin //bubble sort
-			for(i=0;i<8;i=i+1)begin
-				if(i<=4'd7)begin
-					if(data_ready[i]>data_ready[i+1])begin //swap
-						temp = data_ready[i];
-						data_ready[i] = data_ready[i+1];
-						data_ready[i+1] = temp;
-					end
-					else begin
-						temp = temp;
-						data_ready[i] = data_ready[i];
-						data_ready[i+1] = data_ready[i+1];
-					end
-				end
-			end
-		end
-		s_write:begin
-			addr = pixel;
-			data_wr = data_ready[4];
-		end
-		default:;
-	endcase
-end
-
-//use for test whether the data is stored into memory
-/*always@(data_rd)begin
-	case(cstate)
-		s_test:begin
-			median = data_rd;
-		end
-		default:;
-	endcase
-end*/
-
+//data arrives at negative clock edge
 always@(negedge clk)begin
-	if(cstate == s_read || cstate == s_ready)
-		new_data = ~new_data;
-	else
-		new_data = 0;
-end
-
-always@(new_data)begin
-	if(busy == 1 && wen == 0)begin
+	if(cstate == s_read || cstate == s_ready)begin
 		if(count_to_127 == 7'd0)begin //left bound of image
 			if(pixel <= 14'd127)begin //upper bound of image
 				case(index)
@@ -274,9 +227,7 @@ always@(new_data)begin
 			else begin
 				data[index] = idata;
 			end
-		end
-		
-		
+		end	
 	end
 end
 endmodule
